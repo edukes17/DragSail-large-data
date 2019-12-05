@@ -1,0 +1,216 @@
+function PlotResults(Time_history, State_history, Euler_history, Orientation_initial, Torques_aero, Forces_aero, Torques_grav, Forces_grav, Torques_srp,Forces_srp, aoa, beta, aoa_tot, EARTH, R_sun, Sun_body, outdir)
+
+if ~exist(outdir,'dir') %make output directory if it doesn't exist already
+    mkdir(outdir)
+end
+
+%---------------------Euler Angle History---------------------%
+figure(3)       %renumbered to prevent overwrite ED didn't fix it
+hold on
+plot(Time_history,Euler_history(:,1));
+plot(Time_history,Euler_history(:,2));
+plot(Time_history,Euler_history(:,3));
+hold off
+legend('\phi (roll)','\theta (pitch)','\psi (yaw)');
+ylabel('Angle [deg]');xlabel('Time [sec]');
+title(['Angle offset history, \phi_0 =',num2str(rad2deg(Orientation_initial(1))),', \theta_0 = ',num2str(rad2deg(Orientation_initial(2))),', \psi_0 = ',num2str(rad2deg(Orientation_initial(3)))]);
+
+if ispc
+    savefig([pwd '\' outdir '\' 'eulerplots'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'eulerplots.jpg'])   %changed to saveas
+end
+
+
+%---------------------Altitude History---------------------%
+figure(4)
+Altitude_history = zeros(1,length(State_history));
+for nn = 1:length(State_history)
+    Altitude_history(nn) = norm(State_history(nn,1:3))/1000-EARTH.EQRADIUS/1000;
+    %         Altitude_history(nn) = norm(State_history(nn,1:3))/1000;
+end
+plot(Time_history,Altitude_history);
+xlabel('Time [sec]');ylabel('Altitude [km]');
+title('Altitude history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'altplot'])
+elseif ismac
+    saveas(gcf, [pwd '/' outdir '/' 'altplot.jpg'])
+end
+
+
+%---------------------Aero torques and forces---------------------%
+figure(5)
+torqueplotaero = subplot(2,1,1);
+hold on
+plot(Time_history,Torques_aero(1,:));
+plot(Time_history,Torques_aero(2,:));
+plot(Time_history,Torques_aero(3,:));
+hold off
+legend('Tx','Ty','Tz');
+ylabel('Torque [Nm]');xlabel('Time [sec]');
+title(torqueplotaero, 'Aero torque history');
+
+forceplotaero = subplot(2,1,2);
+hold on
+plot(Time_history,Forces_aero(1,:));
+plot(Time_history,Forces_aero(2,:));
+plot(Time_history,Forces_aero(3,:));
+hold off
+legend('Fx','Fy','Fz');
+ylabel('Force [N]');xlabel('Time [sec]');
+title(forceplotaero,'Aero force history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'aeroplots'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'aeroplots.jpg'])
+end
+
+
+%---------------------Gravity torques and forces---------------------%
+figure(6)
+torqueplotgrav = subplot(2,1,1);
+hold on
+plot(Time_history,Torques_grav(1,:));
+plot(Time_history,Torques_grav(2,:));
+plot(Time_history,Torques_grav(3,:));
+hold off
+legend('Tx','Ty','Tz');
+ylabel('Torque [Nm]');xlabel('Time [sec]');
+title(torqueplotgrav, 'Gravity gradient torque history');
+
+forceplotgrav = subplot(2,1,2);
+hold on
+plot(Time_history,Forces_grav(1,:));
+plot(Time_history,Forces_grav(2,:));
+plot(Time_history,Forces_grav(3,:));
+hold off
+legend('Fx','Fy','Fz');
+ylabel('Force [N]');xlabel('Time [sec]');
+title(forceplotgrav,'Gravity force history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'gravplots'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'gravplots.jpg'])
+end
+
+
+%-------------------SRP torques and forces-----------------------%
+figure(7)
+torqueplotsrp = subplot(2,1,1);
+hold on
+plot(Time_history,Torques_srp(1,:));
+plot(Time_history,Torques_srp(2,:));
+plot(Time_history,Torques_srp(3,:));
+hold off
+legend('Tx','Ty','Tz');
+ylabel('Torque [Nm]');xlabel('Time [sec]');
+title(torqueplotsrp, 'SRP torque history');
+
+forceplotsrp = subplot(2,1,2);
+hold on
+plot(Time_history,Forces_srp(1,:));
+plot(Time_history,Forces_srp(2,:));
+plot(Time_history,Forces_srp(3,:));
+hold off
+legend('Fx','Fy','Fz');
+ylabel('Force [N]');xlabel('Time [sec]');
+title(forceplotsrp,'SRP force history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'srpplots'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'srpplots.jpg'])
+end
+
+
+%--------Angle of attack, Side Slip Angle, Total Angle of Attack---------%
+figure(8)
+alphaplot = subplot(3,1,1);
+hold on
+plot(Time_history,rad2deg(aoa));
+xlabel('Time [sec]');ylabel(['\alpha [deg]']);
+% ylabel('$\alpha$ [deg]','Interpreter','latex');
+title(alphaplot, 'Angle of attack history');
+
+betaplot = subplot(3,1,2);
+hold on
+plot(Time_history,rad2deg(beta));
+xlabel('Time [sec]');ylabel(['\beta [deg]']);
+% ylabel('$\beta$ [deg]','Interpreter','latex');
+title(betaplot, 'Side slip angle history');
+
+aoaplot = subplot(3,1,3);
+hold on
+plot(Time_history,rad2deg(aoa_tot));
+xlabel('Time [sec]');ylabel(['\alpha_T [deg]']);
+title(aoaplot, 'Total Angle of Attack history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'angleplots'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'angleplots.jpg'])
+end
+
+
+%-------------------Orbit and Sun Direction----------------------%
+figure(9)
+hold on
+eqrad = EARTH.EQRADIUS/1000;
+porad = EARTH.PORADIUS/1000;
+rsun = R_sun/1000;
+rx = State_history(:,1)/1000;
+ry = State_history(:,2)/1000;
+rz = State_history(:,3)/1000;
+[Earthplotx,Earthploty,Earthplotz] = ellipsoid(0,0,0,eqrad,eqrad,porad);
+surf(Earthplotx,Earthploty,Earthplotz,'FaceColor', [0 .5 .5],'EdgeColor',[0 .7 0]);
+alpha 0.7  % transparency of surface plot (0 = fully transparent)
+plot3(rx,ry,rz,'Linewidth',.8,'Color','k');
+xlabel('x[km]');ylabel('y[km]');zlabel('z[km]');
+Sun_vec = rsun/norm(rsun);
+quiver3(0,0,0,Sun_vec(1)*9500,Sun_vec(2)*9500,Sun_vec(3)*9500,'LineWidth',2,'MaxHeadSize',0.7,'Color','m');
+legend('Earth','Orbit path','Sun direction');
+axis equal
+axis auto
+hold off
+title('Orbit');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'orbitplot'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'orbitplot.jpg'])
+end
+
+%-----------------------Sun in Body Frame-------------------------%     
+figure(10)
+hold on
+plot(Time_history,Sun_body(:,1));
+plot(Time_history,Sun_body(:,2));
+plot(Time_history,Sun_body(:,3));
+legend('SBx','SBy','SBz');
+hold off
+ylabel('Sun unit vector (-body frame)');xlabel('Time [sec]')
+title(['Sun Unit Vector in -Body Frame'])
+
+if ispc
+    savefig([pwd '\' outdir '\' 'sunvect'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'sunvect.jpg'])
+end
+
+%-----------Total Angle of Attack------------------------%
+figure(11)
+plot(Time_history,rad2deg(aoa_tot));
+xlabel('Time [sec]');ylabel(['\alpha_T [deg]']);
+title('Total Angle of Attack history');
+
+if ispc
+    savefig([pwd '\' outdir '\' 'aoaplot'])
+elseif ismac
+    saveas(gcf,[pwd '/' outdir '/' 'aoaplot.jpg'])
+end
+
+end

@@ -1,0 +1,55 @@
+Aerostability Code Inputs:
+1U Cubesat, 1m 70deg boom DragSail
+
+Output Directory = 1U_250km
+
+STL Filename = 1Uassm.stl
+
+--------------------------------------------------------------------------------------
+Spacecraft Properties:
+
+SURFACE:
+Surface.temperature         	= 350           % Spacecraft surfaces temperature [K]
+Surface.reflectance_coef    	= 0.090         % Reflectance coef for calculating SRP effect [] non-dimensional coefficient between 0 and 1 where 1=total reflector
+Surface.specular_coef       	= 0.830         % Specular Reflectance  - non-dimensional coefficient between 0 and 1
+Surface.front_emiss_coef    	= 0.450         % Front emissivity - non-dimensional coefficient between 0 and 1
+Surface.back_emiss_coef     	= 0.450         % Back emissivity - non-dimensional coefficient between 0 and 1
+Surface.front_nonLamb_coef  	= 0.670         % Front non-Lambertian coefficient - non-dimensional coefficient between 0 and 1
+Surface.back_nonLamb_coef   	= 0.670         % Back non-Lambertian coefficient - non-dimensional coefficient between 0 and 1
+
+SPACECRAFT:
+Spacecraft.mass             	= 1.33            % Spacecraft mass [kg]
+Spacecraft.inertia          	= 0.006,0,0	% Spacecraft inertia matrix [kg*m^2]
+			    	= 0,0.005,0
+			    	= 0,0,0.005 	    
+Spacecraft.cm               	= 0,0,0	    	% Spacecraft center of mass, will be used to translate STL body axes to principle axes 
+
+----------------------------------------------------------------------------------------
+Initial Orbital Elements:
+
+Semimajor Axis [km]         			= 6628.1             
+Eccentricity [-]                   		= 0.0                       
+Inclination [deg]                  		= 28.5             
+Argument of Perigee [deg]                  	= 0.0            
+Right Ascension of Ascending Node [deg]     	= 0.0             
+True Anomaly [deg]               		= 0.0
+
+----------------------------------------------------------------------------------------
+Euler Angles (3-2-1 Sequence):
+
+Roll angle [deg]	    	= 0.0		% phi    
+Pitch angle [deg]    		= 0.0		% theta
+Yaw angle [deg]	    		= 0.0		% psi 
+
+
+Angular Rates:
+
+Roll rate [deg/s]		= 0.0
+Pitch rate [deg/s]		= 0.0
+Yaw rate [deg/s]		= 0.0
+
+---------------------------------------------------------------------------------------
+Time Settings:
+
+Epoch 				= 01-01-2020 00:00:00	% dd-mm-yyyy HH:MM:SS
+Propagation time [sec]		= 12000

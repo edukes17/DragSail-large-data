@@ -1,0 +1,57 @@
+2Aerostability Code Inputs:
+ADE70
+%The results should change relative to SolarTest8_new due to the clear sail.Verify plot renumbering fix. 
+Output Directory = Large-data2 
+
+STL Filename = SRP_Test2.stl
+
+--------------------------------------------------------------------------------------
+Spacecraft Properties:
+
+SURFACE:
+Surface.temperature         	= 350           % Spacecraft surfaces temperature [K]
+Surface.reflectance_coef    	= 0.087         % Reflectance coef for calculating SRP effect [] non-dimensional coefficient between 0 and 1 where 1=total reflector
+Surface.specular_coef       	= 0.954         % Specular Reflectance  - non-dimensional coefficient between 0 and 1
+Surface.front_emiss_coef    	= 0.045         % Front emissivity - non-dimensional coefficient between 0 and 1
+Surface.back_emiss_coef     	= 0.045         % Back emissivity - non-dimensional coefficient between 0 and 1
+Surface.front_nonLamb_coef  	= 0.667         % Front non-Lambertian coefficient - non-dimensional coefficient between 0 and 1
+Surface.back_nonLamb_coef   	= 0.667        % Back non-Lambertian coefficient - non-dimensional coefficient between 0 and 1
+Surface.transmissivity_coef     = 0.83		%transmissivity for clear sails
+Surface.Refl			= 0		%Specify clear or reflecting surface 1=Refl, 0=Clear
+
+SPACECRAFT:
+Spacecraft.mass             	= 1.6            % Spacecraft mass [kg]
+Spacecraft.inertia          	= .01,0,0	% Spacecraft inertia matrix [kg*m^2]
+			    	= 0,.048,0
+ 	    			= 0,0,.038
+Spacecraft.cm               	= -0.515625,0,0	    	% Spacecraft center of mass, will be used to translate STL body axes to principle axes 
+
+----------------------------------------------------------------------------------------
+Initial Orbital Elements:
+
+Semimajor Axis [km]         			= 6778.1           %400 km  
+Eccentricity [-]                   		= 0.0                       
+Inclination [deg]                  		= 45.             
+Argument of Perigee [deg]                  	= 0.0            
+Right Ascension of Ascending Node [deg]     	= 0.0             
+True Anomaly [deg]               		= 0.0
+
+----------------------------------------------------------------------------------------
+Euler Angles (3-2-1 Sequence):
+
+Roll angle [deg]	    	= 0.0		% phi    
+Pitch angle [deg]    		= 0.0		% theta 
+Yaw angle [deg]	    		= 0.0		% psi 
+
+
+Angular Rates:
+
+Roll rate [deg/s]		= 0.0
+Pitch rate [deg/s]		= 0.0
+Yaw rate [deg/s]		= 0.0
+
+---------------------------------------------------------------------------------------
+Time Settings:
+
+Epoch 				= 01-01-2020 00:00:00	% dd-mm-yyyy HH:MM:SS
+Propagation time [sec]		= 10
